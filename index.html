@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyCook</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="images/Beige and Brown Chef Hat Illustration Restaurant Logo_20250227_155641_0000-modified.png">
+    <style>
+      /* Search styles */
+      .search-wrapper {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        background: linear-gradient(135deg, rgba(255,154,158,0.1) 0%, rgba(250,208,196,0.1) 100%);
+      }
+      /* Chatbot styles */
+      #chatbot {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: 8px;
+        padding: 10px;
+        overflow-x: auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-bottom: 1px solid #eee;
+      }
+
+      .action-btn {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        white-space: nowrap;
+        font-size: 0.9em;
+        transition: transform 0.2s;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .action-btn i {
+        margin-right: 5px;
+      }
+
+      .recipe-display {
+        background: white;
+        border-radius: 10px;
+        margin: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+
+      .recipe-tabs {
+        display: flex;
+        border-bottom: 1px solid #eee;
+      }
+
+      .recipe-tabs .tab {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-weight: 500;
+        color: #666;
+        transition: all 0.3s;
+      }
+
+      .recipe-tabs .tab.active {
+        color: #ff9a9e;
+        border-bottom: 2px solid #ff9a9e;
+      }
+
+      .recipe-content {
+        padding: 15px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .recipe-actions {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        border-top: 1px solid #eee;
+      }
+
+      .voice-guide, .set-timer {
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        padding: 5px 10px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 0.9em;
+      }
+
+      .servings {
+        width: 60px;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        text-align: center;
+      }
+
+      .chatbot-container {
+        display: none;
+        width: 380px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+        margin-bottom: 20px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .chatbot-container.active {
+        display: block;
+      }
+
+      .chatbot-header {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .chatbot-header h3 {
+        margin: 0;
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .voice-btn {
+        background: rgba(255,255,255,0.2);
+        border: none;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .voice-btn:hover {
+        background: rgba(255,255,255,0.3);
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .messages {
+        height: 300px;
+        overflow-y: auto;
+        padding: 15px;
+      }
+
+      .message {
+        margin: 8px 0;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 80%;
+        word-wrap: break-word;
+      }
+
+      .user-message {
+        background: #f0f0f0;
+        margin-left: auto;
+      }
+
+      .bot-message {
+        background: #fff5f5;
+      }
+
+      .input-area {
+        padding: 15px;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        background: white;
+      }
+
+      .input-type-toggle {
+        background: none;
+        border: none;
+        color: #666;
+        cursor: pointer;
+        padding: 5px;
+        font-size: 1.2em;
+        transition: color 0.3s;
+      }
+
+      .input-type-toggle:hover {
+        color: #ff9a9e;
+      }
+
+      .input-area input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 1px solid #eee;
+        border-radius: 25px;
+        outline: none;
+        font-size: 0.95em;
+        transition: all 0.3s;
+      }
+
+      .input-area input:focus {
+        border-color: #ff9a9e;
+        box-shadow: 0 0 0 2px rgba(255,154,158,0.1);
+      }
+
+      .send-btn {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s;
+      }
+
+      .send-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .chatbot-toggle {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        color: white;
+        border: none;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        float: right;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 20px rgba(255,154,158,0.3);
+        transition: all 0.3s;
+      }
+
+      .chatbot-toggle:hover {
+        transform: scale(1.1) rotate(10deg);
+        box-shadow: 0 8px 25px rgba(255,154,158,0.4);
+      }
+
+      .chatbot-toggle i {
+        font-size: 20px;
+      }
+
+      body {
+        background-color: #fffef9;
+        font-family: 'Roboto', sans-serif;
+      }
+
+      .navbar {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+
+      .navbar-brand {
+        font-weight: bold;
+        color: #333 !important;
+      }
+
+      .nav-link {
+        color: #333 !important;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover {
+        transform: translateY(-2px);
+        color: #ff6b6b !important;
+      }
+
+      .btn-warning {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        border: none;
+        color: #333;
+        transition: all 0.3s ease;
+      }
+
+      .btn-warning:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+      }
+
+      .card {
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        height: 340px;
+        border-radius: 20px;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .recipe-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+      }
+
+      .recipe-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .view-recipe-btn {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        color: #333;
+        padding: 10px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .view-recipe-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+        color: #333;
+      }
+
+   
+     
+
+      .footer {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        color: white;
+        padding: 50px 0 20px;
+      }
+
+      .footer-link {
+        color: rgba(255,255,255,0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .footer-link:hover {
+        color: white;
+        text-decoration: none;
+      }
+
+      .footer-icon {
+        color: white;
+        font-size: 1.5rem;
+        margin-right: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .footer-icon:hover {
+        color: #ff6b6b;
+        transform: translateY(-3px);
+      }
+
+      /* New styles for recipe cards section */
+      #recipes {
+        padding: 60px 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
+
+      #recipes .head {
+        text-align: center;
+        margin-bottom: 40px;
+        color:rgba(235, 156, 10, 0.879);
+        font-size: 2.5rem;
+        font-weight: normal;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      }
+
+      #recipes .card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        background: white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+      }
+
+      #recipes .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      }
+
+      #recipes .card-img-top {
+        height: 190px;
+        object-fit: cover;
+        transition: all 0.3s ease;
+      }
+
+      #recipes .card:hover .card-img-top {
+        transform: scale(1.05);
+      }
+
+      #recipes .card-body {
+        padding: 20px;
+        text-align: center;
+      }
+
+      #recipes .card-title {
+        color: #e6951b;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      #recipes .btn-warning {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        border: none;
+        color: #333;
+        padding: 10px 25px;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255,107,107,0.2);
+      }
+
+      #recipes .btn-warning:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255,107,107,0.3);
+        color: #333;
+      }
+
+      #recipes .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      #recipes .row {
+        margin: 0 -15px;
+      }
+
+      #recipes .col-12 {
+        padding: 0 15px;
+      }
+    </style>
+      
+      <style>
+        .recipe-card {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .recipe-card:hover {
+            background-color: #fff5f5;
+        }
+
+        .recipe-card h3 {
+            color: #ff6b6b;
+            margin: 0 0 5px 0;
+        }
+
+        .recipe-card p {
+            color: #666;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .recipe-info {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+  
+    <section id="home">
+
+     
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="images/c2.jpg" class="d-block w-100" alt="...">
+              <div class="carousel-caption text-left" style="top: 10%; left: 5%; transform: none; text-align: left;">
+                <h2 class="display-4 font-weight-bold text-shadow">Explore our Trending recipes now !!</h2>
+                <a href="#recipess" class="btn btn-warning mt-3 px-4 py-2 font-weight-bold">Explore Now</a>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="images/cl.jpg" class="d-block w-100" alt="...">
+              <div class="carousel-caption text-left" style="top: 10%; left: 5%; transform: none; text-align: left;">
+                <h2 class="display-4 font-weight-bold text-shadow">Explore our Trending recipes now !!</h2>
+                <a href="#recipess" class="btn btn-warning mt-3 px-4 py-2 font-weight-bold">Explore Now</a>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="images\cp.jpg" class="d-block w-100" alt="...">
+              <div class="carousel-caption text-left" style="top: 10%; left: 5%; transform: none; text-align: left;">
+                <h2 class="display-4 font-weight-bold text-shadow">Explore our Trending recipes now !!</h2>
+                <a href="#recipess" class="btn btn-warning mt-3 px-4 py-2 font-weight-bold">Explore Now</a>
+              </div>
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+     
+        <header>
+
+        <nav>
+            <ul> 
+
+    
+<div class="container1">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container-fluid">
+      <img src="images\Beige and Brown Chef Hat Illustration Restaurant Logo_20250227_155641_0000-modified.png" height="50" width="50" alt="Logo" />
+      <a class="navbar-brand ml-2" href="#">EasyCook</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html" target="_blank">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#recipes" target="_blank">Recipes</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html" target="_blank">Contact Us</a></li>
+        </ul>
+        <form class="form-inline">
+          <input class="form-control mr-2" type="search" id="searchInput" placeholder="Search Recipes!!" />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+
+      </div>
+    </div>
+
+    <!-- Wishlist Icon in Navbar -->
+<div class="navbar-wishlist" onclick="showWishlist()">
+  ❤️ Wishlist (<span id="wishlist-count">0</span>)
+</div>
+
+<!-- Hidden Wishlist Popup -->
+<div id="wishlist-popup" class="wishlist-popup hidden">
+  <h3>Your Wishlist ❤️</h3>
+  <div id="wishlist-items"></div>
+</div>
+
+  </nav></div>
+</section>
+  <h1 class="head">Explore Our.... Trending Recipes!</h1>
+  <section id="recipess" class="trending-recipes">
+    <h2>🔥 Trending Recipes</h2>
+    <div class="recipes-grid" id="recipeContainer">
+  
+      <!-- 1 -->
+      <div class="recipe-card" id="recipe-detail-container" data-name="Creamy garlic butter chicken">
+   <div class="wishlist-icon" onclick="toggleHeart(this)" data-title="Creamy Garlic Butter Chicken" 
+data-img="images/cremaychick.jpg">🤍
+</div>
+
+        <img src="images\cremaychick.jpg"  class="img-fluid" alt="Garlic Butter Chicken">        <!-- Inside each recipe-card -->
+       <div class="recipe-content">
+         <h3>Creamy Garlic Butter Chicken</h3>
+         <p>Tender chicken simmered in velvety garlic butter sauce. Comfort food goals.</p>
+       
+</div>
+
+ 
+  <a href="ingredients.html" class="view-recipe-btn"> 👨‍🍳 View Recipe</a>
+
+
+
+
+      </div>
+  
+      <!-- 2 -->
+      <div class="recipe-card" data-name="Paneer Tikka Masala">
+        <div class="wishlist-icon" onclick="toggleHeart(this)" data-title="Paneer Tikka Masala" 
+        data-img="images/paneer.jpg">🤍
+        </div>
+        <img src="images\paneer.jpg" alt="Paneer Tikka Masala">
+        <div class="recipe-content">
+          <h3>Paneer Tikka Masala</h3>
+          <p>Smoky paneer chunks in bold tomato spice gravy. India's veg royalty.</p>
+        </div>
+        <a href="ingredients1.html" class="view-recipe-btn">👨‍🍳 View Recipe</a>
+      </div>
+  
+      <!-- 3 -->
+      <div class="recipe-card" data-name="Chili Garlic Noodles">
+        <div class="wishlist-icon" onclick="toggleHeart(this)" data-title="Chili Garlic Noodles" 
+        data-img="images/noodles.jpg">🤍
+        </div>
+        <img src="images\noodles.jpg" alt="Chili Garlic Noodles">
+        <div class="recipe-content">
+          <h3>Chili Garlic Noodles</h3>
+          <p>Wok-tossed spice bombs with a crunchy twist. Street food energy.</p>
+        </div>
+        <a href="ingredients2.html" class="view-recipe-btn">👨‍🍳 View Recipe</a>
+      </div>
+  
+      <!-- 4 -->
+      <div class="recipe-card" data-category="Avocado Egg Toast">
+        <div class="wishlist-icon" onclick="toggleHeart(this)" data-title="Avocado Egg Toast" 
+        data-img="images/Avacodo egg.jpg">🤍
+        </div>
+        <img src="images\Avacodo egg.jpg" alt="Avocado Egg Toast">
+        <div class="recipe-content">
+          <h3>Avocado Egg Toast</h3>
+          <p>Creamy avo, runny egg, and chili flakes. Breakfast flex mode: ON.</p>
+        </div>
+        <a href="ingredients3.html" class="view-recipe-btn">👨‍🍳 View Recipe</a>
+      </div>
+  
+      <!-- 5 -->
+      <div class="recipe-card" data-category="Loaded Veggie Pizza">
+        <div class="wishlist-icon" onclick="toggleHeart(this)" data-title="Loaded Veggie Pizza" 
+        data-img="images/pizza.jpg">🤍
+        </div>
+        <img src="images\pizza.jpg" alt="Loaded Veggie Pizza">
+        <div class="recipe-content">
+          <h3>Loaded Veggie Pizza</h3>
+          <p>Cheesy crust explosion with fresh veggie power. Slice into the vibe.</p>
+        </div>
+        <a href="ingredients4.html" class="view-recipe-btn">👨‍🍳 View Recipe</a>
+      </div>
+  
+      <!-- 6 -->
+      <div class="recipe-card" data-name="Chocolate Lava Cake">
+        <div class="wishlist-icon" onclick="toggleHeart(this)" data-title="Chocolate Lava Cake" 
+        data-img="images/cholava.jpg">🤍
+        </div>
+        <img src="images\cholava.jpg" alt="Chocolate Lava Cake">
+        <div class="recipe-content">
+          <h3>Chocolate Lava Cake</h3>
+          <p>Molten magic wrapped in cocoa. Dessert dreams unlocked.</p>
+        </div>
+        <a href="ingredients5.html" class="view-recipe-btn">👨‍🍳 View Recipe</a>
+      </div>
+  
+      <!-- 7 -->
+      <div class="recipe-card" data-name="KFC-Style Fried Chicken">
+        <div class="wishlist-icon" onclick="toggleHeart(this)" data-title="KFC-Style Fried Chicken" 
+        data-img="images/c2.jpg">🤍
+        </div>
+        <img src="images\c2.jpg" alt="KFC Fried Chicken">
+        <div class="recipe-content">
+          <h3>KFC-Style Fried Chicken</h3>
+          <p>Crispy, golden, and outrageously juicy. Finger lickin' genius at home.</p>
+        </div>
+        <a href="ingredients6.html" class="view-recipe-btn">👨‍🍳 View Recipe</a>
+      </div>
+  
+      <!-- 8 -->
+      <div class="recipe-card" data-name="Ultimate Chicken Burger">
+        <div class="wishlist-icon" onclick="toggleHeart(this)" data-title="" 
+        data-img="images/cl.jpg">🤍
+        </div>
+        <img src="images\cl.jpg" alt="Cheesy Chicken Burger">
+        <div class="recipe-content">
+          <h3>Ultimate Chicken Burger</h3>
+          <p>Double-decked, cheesy loaded bomb. The burger that owns your soul.</p>
+        </div>
+        
+        <a href="ingredients7.html" class="view-recipe-btn">👨‍🍳 View Recipe</a>
+      </div>
+  
+    </div>
+  </section>
+  
+ 
+<section id="recipes">
+<h1 class="head">Browse by Categories</h1>
+<div class="recipehome">
+  <div class="container">
+    <div class="row g-4 justify-content-center">
+      <div class="col-12 col-md-4 mb-4">
+        <div class="card text-center h-100">
+          <img src="images/homerecp1.jpg" class="card-img-top w-100" alt="Breakfast Recipes">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Breakfast Recipes</h5>
+            <button class="btn btn-warning view-recipe mt-auto" data-category="breakfast">View Recipes</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 mb-4">
+        <div class="card text-center h-100">
+          <img src="images/homerecp3.jpg" class="card-img-top w-100" alt="Lunch Recipes">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Lunch</h5>
+            <button class="btn btn-warning view-recipe mt-auto" data-category="biriyani">View Recipes</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 mb-4">
+        <div class="card text-center h-100">
+          <img src="images/homerecp4.jpg" class="card-img-top w-100" alt="Starters">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Starters</h5>
+            <button class="btn btn-warning view-recipe mt-auto" data-category="starters">View Recipes</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 mb-4">
+        <div class="card text-center h-100">
+          <img src="images/homerecp5.jpg" class="card-img-top w-100" alt="Desserts & Ice creams">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Desserts & Ice creams</h5>
+            <button class="btn btn-warning view-recipe mt-auto" data-category="Dessrets">View Recipes</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 mb-4">
+        <div class="card text-center h-100">
+          <img src="images/homerecp7.jpg" class="card-img-top w-100" alt="Sweets">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Sweets</h5>
+            <button class="btn btn-warning view-recipe mt-auto" data-category="sweets">View Recipes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+
+<section id="about-us" class="about-us-section py-5">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+              <h2 class="display-4">About Us</h2>
+              <p class="lead">
+                  At EasyCook, we're passionate about bringing you the best, most innovative recipes from around the world. Whether you're a beginner or an experienced chef, we provide easy-to-follow, delicious recipes that you can try at home. Our mission is to inspire home cooks with great ideas and give them the tools they need to create beautiful, mouth-watering meals. From trending recipes to culinary staples, we've got something for everyone!
+              </p>
+          </div>
+          <div class="col-md-6">
+              <img src="images\Aboutprof.jpg" class="img-fluid rounded-circle" alt="About Us Image">
+          </div>
+      </div>
+      <div class="row mt-4">
+          <div class="col">
+              <h4>Our Vision</h4>
+              <p>
+                  To empower everyone with the joy of cooking by offering a platform filled with exciting and easy-to-follow recipes. We want to foster a community where food lovers can share, learn, and grow together.
+              </p>
+          </div>
+          <div class="col">
+              <h4>Our Values</h4>
+              <ul>
+                  <li>Innovation in cooking</li>
+                  <li>Simplicity and accessibility for all levels</li>
+                  <li>Respect for diverse food cultures</li>
+                  <li>Commitment to quality ingredients and sustainable practices</li>
+              </ul>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+
+<hr>
+<section id="contact" class="py-5" style="background-color: #fff7ed;">
+  <div class="container">
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-8 text-center">
+        <h2 class="fw-bold mb-3">Get in Touch</h2>
+        <p class="text-muted">Have questions or suggestions? We'd love to hear from you! Fill out the form below or reach us directly.</p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <form id="contactForm">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="Your Name" required>
+            </div>
+            <div class="col-md-6 mt-3 mt-md-0">
+              <input type="email" class="form-control" placeholder="Your Email" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4 py-2">Send Message</button>
+          </div>
+        </form>
+
+        <!-- Message below form -->
+        <div id="responseMessage" class="alert alert-success mt-4 text-center d-none" role="alert">
+          <i class="fas fa-heart text-danger"></i> Your response has been submitted. Our team will contact you soon! ❤️
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<hr>
+
+<footer class="footer" style="background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; padding: 50px 0 20px;">
+  <div class="container">
+    <div class="row text-center text-md-start">
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold">🍳 EasyCook</h5>
+        <p>Discover, cook, and enjoy delicious recipes. Curated for both beginners and experts who love culinary adventures.</p>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold">Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="footer-link">Home</a></li>
+          <li><a href="#about-us" class="footer-link">About Us</a></li>
+          <li><a href="#recipes" class="footer-link">Recipes</a></li>
+          <li><a href="#contact" class="footer-link">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold">Follow Us</h5>
+        <div class="d-flex justify-content-center justify-content-md-start">
+          <!-- Replace '#' with your real pages -->
+<a href="https://www.facebook.com/YourPage" target="_blank" class="me-3 footer-icon"><i class="fab fa-facebook-f"></i></a>
+<a href="https://www.instagram.com/YourHandle" target="_blank" class="me-3 footer-icon"><i class="fab fa-instagram"></i></a>
+<a href="https://twitter.com/YourHandle" target="_blank" class="me-3 footer-icon"><i class="fab fa-twitter"></i></a>
+<a href="https://www.youtube.com/@YourChannel" target="_blank" class="footer-icon"><i class="fab fa-youtube"></i></a>
+
+        </div>
+      </div>
+    </div>
+
+    <hr class="bg-light" />
+    <div class="text-center">
+      <p class="mb-0">&copy; 2025 EasyCook. Crafted with ❤️ for cooking lovers.</p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="search.js"></script>
+<script src="script.js"></script>
+<script src="wishlist.js"></script>
+
+</body>
+
+</html>
+

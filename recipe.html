@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recipe Details</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #fffbe6;
+    }
+    .recipe-box {
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
+      border-radius: 12px;
+      background: white;
+    }
+    .recipe-box img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .steps {
+      background: #f9f9f9;
+      padding: 1rem;
+      border-left: 4px solid #ffa500;
+      margin-top: 1rem;
+    }
+    h1, h3 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+    <div class="steps" id="recipe-steps">
+        <h3>Steps</h3>
+        <ul id="step-list"></ul>
+        <button id="speak-btn">🔊 Play Voice Guide</button>
+      </div>
+      
+      <div class="checklist">
+        <h3>📝 Ingredients Checklist</h3>
+        <ul id="ingredient-list">
+          <li><input type="checkbox" /> Chicken</li>
+          <li><input type="checkbox" /> Garlic</li>
+          <li><input type="checkbox" /> Butter</li>
+          <li><input type="checkbox" /> Cream</li>
+          <li><input type="checkbox" /> Herbs</li>
+        </ul>
+      </div>
+      
+
+ 
+  <script>
+    const data = JSON.parse(localStorage.getItem("selectedRecipe"));
+
+    if (data) {
+      document.getElementById("recipe-title").textContent = data.title;
+      document.getElementById("recipe-img").src = data.img;
+      document.getElementById("recipe-desc").textContent = data.desc;
+      document.getElementById("recipe-steps").innerHTML = `<h3>Steps</h3><p>${data.steps}</p>`;
+    } else {
+      document.body.innerHTML = "<h2>Oops! No recipe selected.</h2>";
+    }
+  </script>
+
+</body>
+</html>

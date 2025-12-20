@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recipe Ingredients Page</title>
+  <style>
+#submitBtn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submitBtn:hover {
+  background-color: #cf711f;
+}
+
+.recipe-image {
+  width: 60%;
+  height: 900px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 30px;
+      background: #fff8f0;
+    }
+    .star-rating {
+  display: flex;
+  gap: 10px;
+  font-size: 2rem;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.star-rating .star:hover,
+.star-rating .star.hovered,
+.star-rating .star.selected {
+  color: #ffd700;
+  transition: color 0.2s;
+}
+
+.rating-response {
+  margin-top: 10px;
+  font-style: italic;
+  color: green;
+}
+
+    img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    h2 {
+      margin-top: 20px;
+      color: #d35400;
+    }
+
+    .section {
+      width:fit-content;
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .icons {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .icons span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: bold;
+    }
+
+    .icons i {
+      color: #e67e22;
+    }
+
+    #soundIcon {
+      font-size: 30px;
+      cursor: pointer;
+      margin-top: 20px;
+      color: #e67e22;
+    }
+
+    #rating {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    select {
+      padding: 6px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .flex-container {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.flex-container .section {
+  flex: 1;
+  min-width: 300px;
+}
+
+  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- ingredients.html -->
+
+  <div class="recipe-card">
+    <img src="images/cl.jpg" alt="Recipe Image" class="recipe-image" />
+  </div>
+  <h3>Chicken Burger</h3>
+  <div class="icons">
+    <span><i class="fa-solid fa-clock"></i> Prep: 30 mins</span>
+    <span><i class="fa-solid fa-utensils"></i> Serves: 4</span>
+  </div>
+
+  <div id="soundIcon"><i class="fas fa-volume-up"></i></div>
+
+  <div class="flex-container mt-5">
+    <div id="ingredientsSection" class="section">
+      <h2>Ingredients</h2>
+      <ul>
+        <li>2 boneless chicken breasts</li>
+        <li>1 cup breadcrumbs</li>
+        <li>1 egg</li>
+        <li>1/2 cup shredded cheddar cheese</li>
+        <li>1 tsp garlic powder</li>
+        <li>1 tsp paprika</li>
+        <li>Salt and pepper to taste</li>
+        <li>2 burger buns</li>
+        <li>Lettuce, tomato slices, and onion rings for garnish</li>
+        <li>Mayonnaise and ketchup for spreading</li>
+      </ul>
+    </div>
+  
+    <div id="procedureSection" class="section">
+      <h2>Procedure</h2>
+      <p>
+        Preheat grill or pan. In a bowl, mix chicken with garlic powder, paprika, salt, pepper, and breadcrumbs. Form the mixture into patties. 
+        Heat oil in a pan and cook patties for 5-6 minutes on each side or until golden brown. Place a slice of cheese on each patty and let it melt. 
+        Toast the burger buns, then spread mayonnaise and ketchup on them. Assemble the burger with lettuce, tomato, onion, and the cheesy chicken patty. Serve hot.
+      </p>
+    </div>
+  </div>
+  
+  <div id="tipsSection" class="section">
+    <h2>Tips</h2>
+    <p>For a juicier patty, add a tablespoon of milk to the mixture. Grill the chicken for extra smokiness. You can also use other cheeses like mozzarella or Swiss for different flavors.</p>
+  </div>
+  
+  <div id="rating" class="section">
+    <p>How would you rate this recipe?</p>
+    <div class="star-rating">
+      <span class="star" data-value="1">&#9734;</span>
+      <span class="star" data-value="2">&#9734;</span>
+      <span class="star" data-value="3">&#9734;</span>
+      <span class="star" data-value="4">&#9734;</span>
+      <span class="star" data-value="5">&#9734;</span>
+    </div>
+    <p id="rating-response" class="rating-response"></p>
+    <button id="submitBtn">Submit Feedback</button>
+  </div>
+
+
+
+  <script>
+    let isSpeaking = false;
+    let utterance;
+    const icon = document.querySelector('#soundIcon i');
+
+    document.getElementById('soundIcon').addEventListener('click', function () {
+      if (isSpeaking) {
+        window.speechSynthesis.cancel();
+        isSpeaking = false;
+        icon.classList.remove('fa-volume-off');
+        icon.classList.add('fa-volume-up');
+        return;
+      }
+
+      const text = getRecipeText();
+
+      if ('speechSynthesis' in window) {
+        utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+
+        utterance.onstart = () => {
+          isSpeaking = true;
+          icon.classList.remove('fa-volume-up');
+          icon.classList.add('fa-volume-off');
+        };
+
+        utterance.onend = () => {
+          isSpeaking = false;
+          icon.classList.remove('fa-volume-off');
+          icon.classList.add('fa-volume-up');
+        };
+
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Sorry, your browser doesn't support speech synthesis.");
+      }
+    });
+
+    function getRecipeText() {
+      const ingredientsText = document.getElementById('ingredientsSection').innerText;
+      const tipsText = document.getElementById('tipsSection').innerText;
+      const procedureText = document.getElementById('procedureSection').innerText;
+      return ingredientsText + ". " + tipsText + ". " + procedureText;
+    }
+	
+	const stars = document.querySelectorAll(".star");
+let ratingValue = 0;
+
+stars.forEach((star) => {
+  star.addEventListener("mouseover", () => {
+    const val = +star.getAttribute("data-value");
+    highlightStars(val);
+  });
+
+  star.addEventListener("mouseout", () => {
+    highlightStars(ratingValue);
+  });
+
+  star.addEventListener("click", () => {
+    ratingValue = +star.getAttribute("data-value");
+    highlightStars(ratingValue);
+    document.getElementById("rating-response").textContent = `You rated this recipe ${ratingValue} star${ratingValue > 1 ? "s" : ""}`;
+  });
+});
+
+
+function highlightStars(value) {
+  stars.forEach((star) => {
+    star.classList.remove("hovered", "selected");
+    if (+star.getAttribute("data-value") <= value) {
+      star.classList.add("selected");
+    }
+  });
+}
+
+document.getElementById("submitBtn").addEventListener("click", () => {
+  if (ratingValue === 0) {
+    alert("Please select a rating before submitting.");
+  } else {
+    alert("Feedback successfully submitted!");
+  }
+});
+  </script>
+</body>
+</html>

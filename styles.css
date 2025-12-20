@@ -1,0 +1,523 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+.navbar{
+    background-color: rgba(234, 203, 203, 0.941)!important;
+    border: 1px solid black; 
+    margin:0px;
+    text-align:right;
+}
+.nav-link{
+    text-align: right;
+    color: chocolate;
+}
+.cont{
+    background-color: #eaca9b;
+    border: 1px solid black;
+    margin:0px;
+}
+.container1{
+    background-image: url('images\bg1(1).jpg');
+    height: 20vh;
+    background-size: cover;
+}
+.head{
+    font-family:Bree serif;
+    font-size: 30px;
+    text-align: center;
+    color: chocolate!important;
+    margin-top: 2px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+.card-img-top{
+    height:150px;
+    width:150px;
+    margin-left: 10px;
+    margin-right: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+   
+}
+.card{
+    margin-left: 5px;
+    margin-right: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    height: 370px;
+    width: 300px;
+    &:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+}
+
+.card1{
+    margin-left: 5px;
+    margin-right: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    height: 320px;
+    width: 300px;
+    &:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+}
+.recipeimg{
+    height: 300px;      
+    width: 300px;
+    margin-left: 10px;
+    margin-right: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+body {
+    padding-top: 0px; /* Adjust based on your navbar height */
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.carousel {
+    height: 650px; /* or whatever height you want */
+    overflow: hidden;
+  }
+   
+  .trending-recipes {
+    padding: 40px;
+    background: #fff;
+    text-align: center;
+  }
+  
+  .recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .recipe-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .recipe-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  
+  .recipe-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 15px;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+  }
+  
+  /* 👇 When clicked, show the content */
+  .recipe-card.clicked .recipe-content {
+    transform: translateY(0%);
+  }
+  
+  .recipe-card.clicked img {
+    transform: scale(1.05);
+  }
+  .view-recipe-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: yellowgreen;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  
+  .view-recipe-btn:hover {
+    background: #e8c141;
+  }
+  /* Style for recipe card */
+.recipe-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Heart Icon Style */
+  .wishlist-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  /* On hover, the heart grows */
+  .wishlist-icon:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .navbar-wishlist {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+  }
+  
+  .wishlist-popup {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    width: 300px;
+    background: white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    padding: 16px;
+    border-radius: 12px;
+    z-index: 100;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .wishlist-popup.hidden {
+    display: none;
+  }
+  
+  #wishlist-items img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  .view-btn {
+    background: rgb(60, 128, 0);
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.3s;
+  }
+  .view-btn:hover {
+    background: #ccc500;
+  }
+  .steps, .checklist {
+    margin-top: 1.5rem;
+    background: #f2f2f2;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  #speak-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #28a745;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  #speak-btn:hover {
+    background: #218838;
+  }
+  
+  .checklist ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .checklist li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  #about-us {
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+#about-us h2 {
+    font-weight: bold;
+}
+
+#about-us .lead {
+    font-size: 1.25rem;
+}
+
+#about-us img {
+    max-width: 70%;
+    height: auto;
+    border: 5px solid #343a40;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#about-us h4 {
+    color: #495057;
+    font-size: 1.2rem;
+}
+
+#about-us ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#about-us ul li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+
+.footer h5 {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.footer p {
+  font-size: 1rem;
+}
+
+.footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer .list-unstyled {
+  padding-left: 0;
+}
+
+.footer .list-unstyled li {
+  margin-bottom: 0.5rem;
+}
+
+.footer .text-center {
+  margin-top: 1rem;
+}
+.footer-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.footer-link:hover {
+  color: #ffb347;
+  text-decoration: underline;
+}
+
+.footer-icon {
+  color: #ffffff;
+  font-size: 1.3rem;
+  transition: transform 0.3s ease;
+}
+.footer-icon:hover {
+  transform: scale(1.2);
+  color: #ffb347;
+}
+
+
+.footer {
+  background-color: #0d1b2a !important;
+  color: #ffffff;
+  padding: 40px 0;
+}
+
+footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+.recipehome .card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recipehome .card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.recipehome .card-img-top {
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.recipehome .card-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.recipehome .btn-warning {
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-weight: 500;
+  background-color: #ffa534;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.recipehome .btn-warning:hover {
+  background-color: #ff8c1a;
+  color: white;
+}
+.recipehome .card-img-top {
+  height: 220px;
+  object-fit: cover;
+  border-bottom: none;
+}
+
+.recipehome .card {
+  border: none;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+}
+
+.recipehome .card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+.about-us-section{
+  
+    background: linear-gradient(135deg, #fff8e7 0%, #fef6f0 100%);
+
+}
+html {
+  scroll-behavior: smooth;
+}
+
+.carousel-caption {
+  background: rgba(27, 27, 26, 0.5);
+  padding: 10px 20px; /* Reduced vertical padding */
+  border-radius: 10px;
+  max-width: 450px;
+  height: fit-content;
+  margin-top: 200px;
+  color: rgba(224, 190, 21, 0.916);
+  font-size: smaller;
+  font-family:cursive;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 8px #171515;
+}
+
+/* Wishlist Styles */
+.wishlist-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.wishlist-item:last-child {
+    border-bottom: none;
+}
+
+.wishlist-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.wishlist-item span {
+    flex: 1;
+    font-size: 14px;
+}
+
+.wishlist-popup {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    width: 300px;
+    background: white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    padding: 16px;
+    border-radius: 12px;
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.wishlist-popup.hidden {
+    display: none;
+}
+
+.navbar-wishlist {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+    margin-left: 15px;
+}
+
+.wishlist-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.wishlist-icon:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.9);
+}
